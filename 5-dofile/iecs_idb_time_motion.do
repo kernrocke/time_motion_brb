@@ -1,7 +1,34 @@
-version 13
-clear
+** HEADER -----------------------------------------------------
+**  DO-FILE METADATA
+    //  algorithm name          iecs_idb.do
+    //  project:                IECS & IDB
+    //  analysts:               Kern ROCKE
+    //  date first created      17-SEP-2025
+    // 	date last modified      17-SEP-2025
+    //  algorithm task          Analysis of healthcare workers 
+    //  status                  In progress
 
-import delimited record_id redcap_survey_identifier hcw_debriefing_surve_v_0 enumerator_v2 healthcare_work_id_v2 health_facility_v2 health_professional_v2 health_profession_other_v2 tasks_responsibiliites_v2___1 tasks_responsibiliites_v2___2 tasks_responsibiliites_v2___3 tasks_responsibiliites_v2___4 tasks_responsibiliites_v2___5 tasks_responsibiliites_v2___6 tasks_responsibiliites_v2___7 tasks_responsibiliites_v2___8 tasks_responsibiliites_v2___9 tasks_responsibiliites_v2___10 tasks_responsibiliites_v2___11 q15_v2 other_q15_v2 q3_v2 q4_v2___1 q4_v2___2 q4_v2___3 q4_v2___4 q4_v2___5 q4_v2___6 q4_v2___7 q4_v2___8 q4_v2___9 q4_other_v2 q5_v2 the_patient_record_is_easy the_patient_record_info the_patient_record_suffi the_patient_record_provide the_information_in_the_pat i_am_satisfied_with_the_qu using_the_patient_record_r i_typically_update_patient i_can_fulfil_my_tasks_more the_patient_record_helps_r the_patient_record_facilit the_patient_record_improve q7_v2_bis the_quality_of_clinical_de communication_with_other_p transition_of_care_e_g_ref communication_with_your_pa timely_access_to_medical_r accessing_test_results prescribing_and_managing_m requesting_medical_tests q8_v2 q9_v2 q10_v2_bis age_v2 sex_v2 work_experience_v2 work_health_facility_v2 responsibilities_v2___1 responsibilities_v2___2 responsibilities_v2___3 responsibilities_v2___5 responsibilities_v2___4 other_specify_v2 observations_v2 hcw_debriefing_surve_v_1 using "DebriefSurveyTimeMot_DATA_NOHDRS_2025-09-16_0949.csv", varnames(nonames)
+
+    ** General algorithm set-up
+    version 17.0
+    clear all
+    macro drop _all
+    set more off
+
+    ** Initialising the STATA log and allow automatic page scrolling
+    capture {
+            program drop _all
+    	drop _all
+    	log close
+    	}
+
+    ** Set working directories: this is for DATASET and LOGFILE import and export
+    ** DATASETS to encrypted SharePoint folder
+    local datapath "/Users/kernrocke/Library/Mobile Documents/com~apple~CloudDocs/Github/time_motion_brb"
+
+** HEADER -----------------------------------------------------
+
+import delimited record_id redcap_survey_identifier hcw_debriefing_surve_v_0 enumerator_v2 healthcare_work_id_v2 health_facility_v2 health_professional_v2 health_profession_other_v2 tasks_responsibiliites_v2___1 tasks_responsibiliites_v2___2 tasks_responsibiliites_v2___3 tasks_responsibiliites_v2___4 tasks_responsibiliites_v2___5 tasks_responsibiliites_v2___6 tasks_responsibiliites_v2___7 tasks_responsibiliites_v2___8 tasks_responsibiliites_v2___9 tasks_responsibiliites_v2___10 tasks_responsibiliites_v2___11 q15_v2 other_q15_v2 q3_v2 q4_v2___1 q4_v2___2 q4_v2___3 q4_v2___4 q4_v2___5 q4_v2___6 q4_v2___7 q4_v2___8 q4_v2___9 q4_other_v2 q5_v2 the_patient_record_is_easy the_patient_record_info the_patient_record_suffi the_patient_record_provide the_information_in_the_pat i_am_satisfied_with_the_qu using_the_patient_record_r i_typically_update_patient i_can_fulfil_my_tasks_more the_patient_record_helps_r the_patient_record_facilit the_patient_record_improve q7_v2_bis the_quality_of_clinical_de communication_with_other_p transition_of_care_e_g_ref communication_with_your_pa timely_access_to_medical_r accessing_test_results prescribing_and_managing_m requesting_medical_tests q8_v2 q9_v2 q10_v2_bis age_v2 sex_v2 work_experience_v2 work_health_facility_v2 responsibilities_v2___1 responsibilities_v2___2 responsibilities_v2___3 responsibilities_v2___5 responsibilities_v2___4 other_specify_v2 observations_v2 hcw_debriefing_surve_v_1 using "`datapath'/1-input/DebriefSurveyTimeMot_DATA_NOHDRS_2025-09-16_0949.csv", varnames(nonames)
 
 label data "DebriefSurveyTimeMot_DATA_NOHDRS_2025-09-16_0949.csv"
 
@@ -198,14 +225,68 @@ label variable hcw_debriefing_surve_v_1 "Complete?"
 order record_id redcap_survey_identifier hcw_debriefing_surve_v_0 enumerator_v2 healthcare_work_id_v2 health_facility_v2 health_professional_v2 health_profession_other_v2 tasks_responsibiliites_v2___1 tasks_responsibiliites_v2___2 tasks_responsibiliites_v2___3 tasks_responsibiliites_v2___4 tasks_responsibiliites_v2___5 tasks_responsibiliites_v2___6 tasks_responsibiliites_v2___7 tasks_responsibiliites_v2___8 tasks_responsibiliites_v2___9 tasks_responsibiliites_v2___10 tasks_responsibiliites_v2___11 q15_v2 other_q15_v2 q3_v2 q4_v2___1 q4_v2___2 q4_v2___3 q4_v2___4 q4_v2___5 q4_v2___6 q4_v2___7 q4_v2___8 q4_v2___9 q4_other_v2 q5_v2 the_patient_record_is_easy the_patient_record_info the_patient_record_suffi the_patient_record_provide the_information_in_the_pat i_am_satisfied_with_the_qu using_the_patient_record_r i_typically_update_patient i_can_fulfil_my_tasks_more the_patient_record_helps_r the_patient_record_facilit the_patient_record_improve q7_v2_bis the_quality_of_clinical_de communication_with_other_p transition_of_care_e_g_ref communication_with_your_pa timely_access_to_medical_r accessing_test_results prescribing_and_managing_m requesting_medical_tests q8_v2 q9_v2 q10_v2_bis age_v2 sex_v2 work_experience_v2 work_health_facility_v2 responsibilities_v2___1 responsibilities_v2___2 responsibilities_v2___3 responsibilities_v2___5 responsibilities_v2___4 other_specify_v2 observations_v2 hcw_debriefing_surve_v_1 
 set more off
 describe
+*-----------------------------------------------------------------------
+*Table showing distribution of healthcare workers by institution
 
+tab health_facility_v2, sort
 
-graph hbar (count), over(sex_v2) over(age_v2) asyvars stack percentages bar(1, fcolor(midblue)) bar(2, fcolor(red)) blab(bar, pos(inside) format(%9.1g)) leg(rows(1)) ytitle("Percentage (%)") ylabel(, nogrid) graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) title(`"Gender and Age Distribution"')
+*-----------------------------------------------------------------------
+*Graph 1 - Gender and Age Distribution (Percentages)
+#delimit; 
+graph hbar (count), 
+	over(sex_v2) over(age_v2) 
+		asyvars stack percentages 
+		bar(1, fcolor(midblue)) 
+		bar(2, fcolor(red)) 
+		blab(bar, pos(inside) format(%9.1g)) 
+		leg(rows(1)) 
+		ytitle("Percentage (%)") 
+		ylabel(, nogrid) 
+		graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) 
+		title(`"Gender and Age Distribution"')
+		name(fig1_per, replace)
+		
+		;
+#delimit cr
 
-graph hbar (count), over(sex_v2) over(age_v2) asyvars stack  bar(1, fcolor(midblue)) bar(2, fcolor(red)) blab(bar, pos(center) format(%9.1g)) leg(rows(1)) ytitle("Frequency") ylabel(, nogrid) graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) title(`"Gender and Age Distribution"')
+graph save "`datapath'/3-output/fig1_per.png", replace
+*-----------------------------------------------------------------------
+*Graph 1 - Gender and Age Distribution (Frequency)
+#delimit; 
+graph hbar (count), 
+	over(sex_v2) over(age_v2) 
+	asyvars stack  
+	bar(1, fcolor(midblue)) 
+	bar(2, fcolor(red)) 
+	blab(bar, pos(center) format(%9.1g)) leg(rows(1)) 
+	ytitle("Frequency") ylabel(, nogrid) 
+	graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) 
+	title(`"Gender and Age Distribution"')
+	name(fig1_count, replace)
+	
+	;
+#delimit cr
 
-graph pie, over(health_professional_v2) noclockwise pie(1, color(dknavy)) pie(2, color(lavender)) pie(3, color(forest_green)) plabel(_all percent, color(white) format(%9.1g)) title(`"Healthcare Professions"') legend(on rows(1)) graphregion(fcolor(white) ifcolor(white))
+graph save "`datapath'/3-output/fig1_count.png", replace
+*-----------------------------------------------------------------------
+* Graph 2 - Healthcare Professional Distribution
+#delimit;
+graph pie, 
+	over(health_professional_v2) 
+	noclockwise 
+	pie(1, color(dknavy)) pie(2, color(lavender)) pie(3, color(forest_green)) 
+	plabel(_all percent, color(white) format(%9.1g)) 
+	title(`"Healthcare Professions"') 
+	legend(on rows(1)) 
+	graphregion(fcolor(white) ifcolor(white))
+	name(fig2, replace)
+	
+	;
+#delimit cr
 
+graph save "`datapath'/3-output/fig2.png", replace
+*-----------------------------------------------------------------------
+*Re-labelling task and responsibiliites multi-response
 
 label var tasks_responsibiliites_v2___1 "Assessing and triaging incoming patients"
 label var tasks_responsibiliites_v2___2 "Providing emergency treatment or procedures"
@@ -219,13 +300,70 @@ label var tasks_responsibiliites_v2___9 "Supervising or supporting junior staff/
 label var tasks_responsibiliites_v2___10 "Managing department flow or logistics"
 label var tasks_responsibiliites_v2___11 "Others"
 
-mrgraph hbar tasks_responsibiliites_v2___1 - tasks_responsibiliites_v2___11, blab(bar, pos(outside) format(%9.1g)) width(70) stat(col)  bar(1, fcolor(midgreen)) title("Healthcare Worker Task & Responsiblities") ytitle("Percentage (%)") ylab(, nogrid) oversubopts(label(labsize(small))) xsize(10) graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none))
+* Graph 3 - Distribution of Tasks and Responsiblities by Healthcare Professionals
 
-graph pie, over(q15_v2) noclockwise pie(1, color(dknavy)) pie(2, color(lavender)) pie(3, color(forest_green)) plabel(_all percent, color(white) format(%9.1g)) title("Work Reflecting Typical Day") legend(on rows(2)) graphregion(fcolor(white) ifcolor(white))
+#delimit;
+mrgraph hbar tasks_responsibiliites_v2___1 - tasks_responsibiliites_v2___11, 
+	blab(bar, pos(outside) format(%9.1g)) 
+	width(70) stat(col)  
+	bar(1, fcolor(midgreen)) 
+	title("Healthcare Worker Task & Responsiblities") 
+	ytitle("Percentage (%)") 
+	ylab(, nogrid) 
+	oversubopts(label(labsize(small))) 
+	xsize(10) 
+	graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none))
+	name(fig3, replace)
+	
+	;
+#delimit cr
+graph save "`datapath'/3-output/fig3.png", replace
 
+*-----------------------------------------------------------------------
+* Graph 4 - Distribution of Perception of Work Reflecting a Typical Day
 
-graph hbar (count), over(health_professional_v2) over(q3_v2, label(labsize(small))) asyvars stack  bar(1, fcolor(midblue)) bar(2, fcolor(red)) blab(bar, pos(center) format(%9.1g)) leg(rows(1)) ytitle("Frequency") ylabel(, nogrid) graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) title("Use of MedData by Type of Health Professional", size(medium) color(black)) xsize(10) 
+#delimit
+graph pie, 
+		over(q15_v2) 
+		noclockwise 
+		pie(1, color(dknavy)) 
+		pie(2, color(lavender)) 
+		pie(3, color(forest_green)) 
+		plabel(_all percent, color(white) format(%9.1g)) 
+		title("Work Reflecting Typical Day") 
+		legend(on rows(2)) 
+		graphregion(fcolor(white) ifcolor(white))
+		name(fig4, replace)
 
+		;
+#delimit cr
+
+graph save "`datapath'/3-output/fig4.png", replace
+
+*-----------------------------------------------------------------------
+* Graph 5 - Use of MedData by Healthcare Workers
+
+#delimit;
+graph hbar (count), 
+	over(health_professional_v2) 
+	over(q3_v2, label(labsize(small))) 
+	asyvars stack  
+	bar(1, fcolor(midblue)) 
+	bar(2, fcolor(red)) 
+	blab(bar, pos(center) format(%9.1g)) leg(rows(1)) 
+	ytitle("Frequency") ylabel(, nogrid) 
+	graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none)) 
+	title("Use of MedData by Type of Health Professional", size(medium) color(black)) 
+	xsize(10) 
+	name(fig5, replace)
+	
+			;
+#delimit cr
+
+graph save "`datapath'/3-output/fig5.png", replace
+
+*-----------------------------------------------------------------------
+* Graph 6 - Use of Digital Tools/Systems
 
 label var q4_v2___1 "Patient Registration"
 label var q4_v2___2 "Check Medical Records"
@@ -237,10 +375,25 @@ label var q4_v2___7 "Patient Discharge"
 label var q4_v2___8 "Other"
 label var q4_v2___9 "No experience with Digital tools"
 
-mrgraph hbar q4_v2___1 - q4_v2___9, blab(bar, pos(outside) format(%9.1g)) width(70) stat(col)  bar(1, fcolor(purple)) title("Use of Digital Tools/Systems") ytitle("Percentage (%)") ylab(, nogrid) oversubopts(label(labsize(small))) xsize(10) graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none))
+#delimit;
+mrgraph hbar q4_v2___1 - q4_v2___9, 
+	blab(bar, pos(outside) format(%9.1g)) 
+	width(70) stat(col)  
+	bar(1, fcolor(purple)) 
+	title("Use of Digital Tools/Systems") 
+	ytitle("Percentage (%)") 
+	ylab(, nogrid) oversubopts(label(labsize(small))) 
+	xsize(10) 
+	graphregion(fcolor(white) lcolor(none) ifcolor(white) ilcolor(none))
+	name(fig6, replace)
+	
+	;
+#delimit cr	
 
+graph save "`datapath'/3-output/fig6.png", replace
 
-
+*-----------------------------------------------------------------------
+*Graph 7 - Patient Record System Assessment
 
 * Stacked Bar Chart for Patient Record Survey - Likert Scale Data
 * Variables: SD D N A SA responses
@@ -310,18 +463,18 @@ recode response (1=5) (2=4) (4=2) (5=1)
 label define response 1"Strongly Disagree" 2"Disagree" 3"Neutral" 4"Agree" 5"Strongly Agree"
 label value response response 
 					  
-* Create the stacked bar chart using catplot
+* Create the stacked bar chart 
 #delimit;
 
 graph hbar (count) , 
 	over(response) 
 	over(question, label(labsize(small))) 
 		asyvars stack percent 
-		bar(1, fcolor("215 25 28")) 
-		bar(2, fcolor("253 174 97")) 
-		bar(3, fcolor("255 255 191")) 
-		bar(4, fcolor("166 217 106")) 
-		bar(5, fcolor("26 150 65")) 
+		bar(1, fcolor("215 25 28") lc(black)) 
+		bar(2, fcolor("253 174 97") lc(black)) 
+		bar(3, fcolor("255 255 191") lc(black)) 
+		bar(4, fcolor("166 217 106") lc(black)) 
+		bar(5, fcolor("26 150 65") lc(black)) 
 		blab(bar, pos(center) 
 		format(%9.0f)) 
 		leg(rows(1)) 
@@ -331,9 +484,374 @@ graph hbar (count) ,
 		ifcolor(white) ilcolor(none)) 
 		title("Patient Record System Assessment", size(medium) color(black)) 
 		xsize(10) 
+		name(fig7, replace)
 	;
 #delimit cr
 
-
+graph save "`datapath'/3-output/fig7.png", replace
 
 restore
+
+*-----------------------------------------------------------------------
+*Graph 8 - Awareness of Digital Transformation" "Project in QEH
+
+#delimit;
+graph pie, 
+	over(q7_v2_bis) 
+	noclockwise 
+	pie(1, color(dknavy)) pie(2, color(lavender)) pie(3, color(forest_green)) 
+	plabel(_all percent, color(white) format(%9.1g)) 
+	title("Awareness of Digital Transformation" "Project in QEH") 
+	legend(on rows(3) size(small) margin(zero) bexpand) 
+	graphregion(fcolor(white) ifcolor(white))
+	name(fig8, replace)
+	;
+#delimit cr	
+
+graph save "`datapath'/3-output/fig8.png", replace
+
+*-----------------------------------------------------------------------
+*Graph 9 - Impact of Digital Transformation
+
+* First, reshape data to long format for analysis
+preserve
+
+local counter = 1
+
+foreach x of varlist the_quality_of_clinical_de communication_with_other_p transition_of_care_e_g_ref communication_with_your_pa timely_access_to_medical_r accessing_test_results prescribing_and_managing_m requesting_medical_tests{
+	
+	rename `x' q_`counter++'
+}
+
+* Create an ID variable
+gen id = _n
+
+* Reshape the data
+reshape long q_, i(id) j(question)
+
+* Rename the reshaped variable
+rename q_ response
+
+* Clean the question variable names
+label define question 1"Quality of clinical decisions" ///
+					  2"Communication with other providers" ///
+					  3"Transition of care" ///
+					  4"Communication with your patients" ///
+					  5"Timely access to medical records" ///
+					  6"Accessing test results" ///
+					  7"Prescribing and managing medications" ///
+					  8"Requesting medical tests" 
+					  				  
+label value question question
+
+recode response (1=5) (2=4) (4=2) (5=1)
+
+drop if response == 9
+label define response 1"Major negative impact" 2"Negative impact" 3"No impact" 4"Positive impact" 5"Major positive impact"
+label value response response 
+
+tab response 
+					  
+* Create the stacked bar chart using catplot
+#delimit;
+
+graph hbar (count) , 
+	over(response) 
+	over(question, label(labsize(small))) 
+		asyvars stack percent 
+		bar(1, fcolor("215 25 28") lc(black)) 
+		bar(2, fcolor("253 174 97") lc(black)) 
+		bar(3, fcolor("255 255 191") lc(black)) 
+		bar(4, fcolor("166 217 106") lc(black)) 
+		bar(5, fcolor("26 150 65") lc(black)) 
+		blab(bar, pos(center) 
+		format(%9.0f)) 
+		leg(rows(2) margin(zero)) 
+		ytitle("Percentage (%)") 
+		ylabel(, nogrid) 
+		graphregion(fcolor(white) lcolor(none) 
+		ifcolor(white) ilcolor(none)) 
+		title("Impact of Digital Transformation", size(medium) color(black)) 
+		xsize(10) 
+		name(fig9, replace)
+	;
+#delimit cr
+
+graph save "`datapath'/3-output/fig9.png", replace
+
+restore
+*-----------------------------------------------------------------------
+
+*-----------------------------------------------------------------------
+* CREATE DOCUMENT WITH ALL GRAPHS USING PUTDOCX
+*-----------------------------------------------------------------------
+
+* Begin the document
+putdocx begin
+
+* Add title page
+putdocx paragraph, style(Title)
+putdocx text ("Healthcare Worker Survey Analysis Report")
+
+putdocx paragraph, style(Subtitle) 
+putdocx text ("Digital Transformation and Patient Records Assessment")
+
+putdocx paragraph
+putdocx text ("Date: ")
+putdocx text ("`c(current_date)'"), bold
+
+putdocx pagebreak
+
+* Add table of contents
+putdocx paragraph, style(Heading1)
+putdocx text ("Table of Contents")
+
+putdocx paragraph
+putdocx text ("1. Demographics and Professional Distribution")
+putdocx paragraph
+putdocx text ("2. Tasks and Responsibilities")
+putdocx paragraph  
+putdocx text ("3. Work Environment Assessment")
+putdocx paragraph
+putdocx text ("4. Digital Tools Usage")
+putdocx paragraph
+putdocx text ("5. Patient Record System Evaluation")
+putdocx paragraph
+putdocx text ("6. Digital Transformation Awareness and Impact")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 1: DEMOGRAPHICS AND PROFESSIONAL DISTRIBUTION
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("1. Demographics and Professional Distribution")
+
+* Add sample size information
+putdocx paragraph
+putdocx text ("This section presents the demographic characteristics and professional distribution of healthcare workers surveyed across various health facilities in Barbados.")
+
+* Table showing distribution by institution
+putdocx paragraph, style(Heading2)
+putdocx text ("Distribution by Healthcare Facility")
+
+putdocx table facility_table = data("health_facility_v2"), varnames
+putdocx table facility_table(1,.), bold
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Gender and Age Distribution")
+
+putdocx paragraph
+putdocx text ("Figure 1 shows the distribution of survey participants by gender and age groups.")
+
+* Export and Insert Figure 1 - Gender and Age (Percentage)
+graph export "`datapath'/3-output/fig1_per.png", name(fig1_per) replace width(1200) height(800)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig1_per.png", width(6) height(4)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 1: Gender and Age Distribution (Percentages)")
+
+putdocx pagebreak
+
+* Export and Insert Figure 1 - Gender and Age (Frequency) 
+graph export "`datapath'/3-output/fig1_count.png", name(fig1_count) replace width(1200) height(800)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig1_count.png", width(6) height(4)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 1b: Gender and Age Distribution (Frequency)")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Healthcare Professional Types")
+
+putdocx paragraph
+putdocx text ("The survey included various types of healthcare professionals working across the facilities.")
+
+* Export and Insert Figure 2 - Healthcare Professionals
+graph export "`datapath'/3-output/fig2.png", name(fig2) replace width(1200) height(800)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig2.png", width(6) height(4)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 2: Distribution of Healthcare Professions")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 2: TASKS AND RESPONSIBILITIES
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("2. Tasks and Responsibilities")
+
+putdocx paragraph
+putdocx text ("This section examines the various tasks and responsibilities undertaken by healthcare workers during their typical work week.")
+
+* Export and Insert Figure 3 - Tasks and Responsibilities
+graph export "`datapath'/3-output/fig3.png", name(fig3) replace width(1600) height(1200)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig3.png", width(8) height(6)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 3: Healthcare Worker Tasks & Responsibilities")
+
+putdocx paragraph
+putdocx text ("The chart above shows the percentage of healthcare workers engaged in different types of activities, highlighting the diverse nature of their roles and responsibilities.")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 3: WORK ENVIRONMENT ASSESSMENT
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("3. Work Environment Assessment")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Typical Work Day Reflection")
+
+putdocx paragraph
+putdocx text ("Healthcare workers were asked whether their surveyed shift reflected a typical day for them.")
+
+* Export and Insert Figure 4 - Typical Day
+graph export "`datapath'/3-output/fig4.png", name(fig4) replace width(1200) height(800)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig4.png", width(6) height(4)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 4: Work Reflecting Typical Day")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 4: DIGITAL TOOLS USAGE
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("4. Digital Tools Usage")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("MedData Usage by Healthcare Professionals")
+
+putdocx paragraph
+putdocx text ("The following chart shows how different types of healthcare professionals use MedData, the electronic medical records system.")
+
+* Export and Insert Figure 5 - MedData Usage
+graph export "`datapath'/3-output/fig5.png", name(fig5) replace width(1600) height(1000)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig5.png", width(8) height(5)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 5: Use of MedData by Type of Health Professional")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Digital Tools and Systems Usage")
+
+putdocx paragraph
+putdocx text ("Healthcare workers utilize various digital tools and systems in their daily workflow. The chart below shows the percentage of workers using different digital functionalities.")
+
+* Export and Insert Figure 6 - Digital Tools
+graph export "`datapath'/3-output/fig6.png", name(fig6) replace width(1600) height(1200)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig6.png", width(8) height(6)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 6: Use of Digital Tools/Systems")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 5: PATIENT RECORD SYSTEM EVALUATION
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("5. Patient Record System Evaluation")
+
+putdocx paragraph
+putdocx text ("Healthcare workers provided detailed feedback on various aspects of the patient record system. The following analysis presents their perceptions across multiple dimensions of system usability and effectiveness.")
+
+* Export and Insert Figure 7 - Patient Record Assessment
+graph export "`datapath'/3-output/fig7.png", name(fig7) replace width(2000) height(1400)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig7.png", width(10) height(7)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 7: Patient Record System Assessment")
+
+putdocx paragraph
+putdocx text ("The stacked bar chart above shows responses to twelve different statements about the patient record system, with responses ranging from 'Strongly Disagree' to 'Strongly Agree'. This provides insight into user satisfaction and areas for potential improvement.")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* SECTION 6: DIGITAL TRANSFORMATION AWARENESS AND IMPACT
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("6. Digital Transformation Awareness and Impact")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Awareness of Digital Transformation Project")
+
+putdocx paragraph
+putdocx text ("Healthcare workers were surveyed about their awareness of the digital transformation project at Queen Elizabeth Hospital (QEH).")
+
+* Export and Insert Figure 8 - Digital Transformation Awareness
+graph export "`datapath'/3-output/fig8.png", name(fig8) replace width(1200) height(800)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig8.png", width(6) height(4)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 8: Awareness of Digital Transformation Project in QEH")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Perceived Impact of Digital Transformation")
+
+putdocx paragraph
+putdocx text ("The following chart shows healthcare workers' perceptions of how digital transformation has impacted various aspects of their work and patient care.")
+
+* Export and Insert Figure 9 - Impact Assessment
+graph export "`datapath'/3-output/fig9.png", name(fig9) replace width(2000) height(1200)
+putdocx paragraph
+putdocx image "`datapath'/3-output/fig9.png", width(10) height(6)
+putdocx paragraph, style(Subtitle)
+putdocx text ("Figure 9: Impact of Digital Transformation")
+
+putdocx paragraph
+putdocx text ("This comprehensive assessment reveals the multifaceted impact of digital transformation initiatives across different domains of healthcare delivery.")
+
+putdocx pagebreak
+
+*-----------------------------------------------------------------------
+* CONCLUSIONS AND RECOMMENDATIONS
+*-----------------------------------------------------------------------
+
+putdocx paragraph, style(Heading1)
+putdocx text ("Conclusions and Key Findings")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Key Findings:")
+
+putdocx paragraph
+putdocx text ("• The survey captured responses from healthcare workers across multiple facilities")
+putdocx paragraph
+putdocx text ("• Healthcare workers engage in diverse tasks and responsibilities")
+putdocx paragraph  
+putdocx text ("• Digital tools usage varies by profession and task type")
+putdocx paragraph
+putdocx text ("• Patient record system shows mixed user satisfaction levels")
+putdocx paragraph
+putdocx text ("• Awareness of digital transformation initiatives varies among staff")
+putdocx paragraph
+putdocx text ("• Digital transformation impact is perceived differently across various work domains")
+
+putdocx paragraph, style(Heading2)
+putdocx text ("Recommendations:")
+
+putdocx paragraph
+putdocx text ("• Enhance training programs for digital tool utilization")
+putdocx paragraph
+putdocx text ("• Improve user experience design for patient record systems")
+putdocx paragraph
+putdocx text ("• Increase communication about digital transformation initiatives")
+putdocx paragraph
+putdocx text ("• Target interventions based on professional role and facility type")
+
+* Save the document
+putdocx save "Healthcare_Worker_Survey_Report.docx", replace
+
+* Display completion message
+display "Document created successfully: Healthcare_Worker_Survey_Report.docx"
