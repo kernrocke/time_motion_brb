@@ -581,8 +581,6 @@ graph save "`datapath'/3-output/fig9.png", replace
 
 restore
 *-----------------------------------------------------------------------
-
-*-----------------------------------------------------------------------
 * CREATE DOCUMENT WITH ALL GRAPHS USING PUTDOCX
 *-----------------------------------------------------------------------
 
@@ -636,8 +634,41 @@ putdocx text ("This section presents the demographic characteristics and profess
 putdocx paragraph, style(Heading2)
 putdocx text ("Distribution by Healthcare Facility")
 
-putdocx table facility_table = data("health_facility_v2"), varnames
+* Get the actual frequencies and percentages from your data
+preserve
+contract health_facility_v2, freq(n) percent(pct)
+gsort -n  
+gen pct_rounded = round(pct, 0.01)
+local num_facilities = _N
+
+* Create table with calculated values
+putdocx table facility_table = (`=`num_facilities'+1',3), 
+
+* Add headers
+putdocx table facility_table(1,1) = ("Health Facility")
+putdocx table facility_table(1,2) = ("n")
+putdocx table facility_table(1,3) = ("Percentage (%)")
+
+* Add data rows dynamically 
+forvalues i = 1/`num_facilities' {
+    local facility_code = health_facility_v2[`i']
+    local facility_name: label (health_facility_v2) `facility_code'
+    local freq = n[`i']
+    local percentage = pct_rounded[`i'] 
+    
+    putdocx table facility_table(`=`i'+1',1) = ("`facility_name'")
+    putdocx table facility_table(`=`i'+1',2) = ("`freq'")
+    putdocx table facility_table(`=`i'+1',3) = ("`percentage'")
+}
+
+* Style the table
 putdocx table facility_table(1,.), bold
+putdocx table facility_table(1,.), shading("lightgray")
+putdocx table facility_table(.,.), halign(left)
+putdocx table facility_table(.,2), halign(center)
+putdocx table facility_table(.,3), halign(center)
+
+restore
 
 putdocx paragraph, style(Heading2)
 putdocx text ("Gender and Age Distribution")
@@ -855,3 +886,4 @@ putdocx save "Healthcare_Worker_Survey_Report.docx", replace
 
 * Display completion message
 display "Document created successfully: Healthcare_Worker_Survey_Report.docx"
+
